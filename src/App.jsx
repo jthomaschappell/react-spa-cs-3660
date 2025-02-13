@@ -43,4 +43,46 @@ function App() {
   );
 }
 
+
+// function Greeting(props) {
+//   function greetClick(event) {
+//     const greeting = event.target.id === "helloBtn"
+//       ? "Hello" : "Hey";
+
+//     alert(`${greeting}, ${props.name}!`);
+//   }
+
+//   return (
+//     <div>
+//       <button id="helloBtn" onClick={greetClick}>
+//         Say Hello
+//       </button>
+//       <button id="heyBtn" onClick={greetClick}>
+//         Say Hey
+//       </button>
+//     </div>
+//   );
+// }
+
+// function App() {
+//   return (
+//     <Greeting name="Jose" />
+//   );
+// }
+
+// function App() {
+//   return (
+//     <Router>
+//       <div className="App">
+//         <Navbar />
+//         <Routes>
+//           <Route path="/" element={<Home />} />
+//           <Route path="/about" element={<About />} />
+//           <Route path="*" element={<NotFound />} />
+//         </Routes>
+//       </div>
+//     </Router>
+//   );
+// }
+
 export default App;
