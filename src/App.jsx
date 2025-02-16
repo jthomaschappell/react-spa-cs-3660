@@ -9,10 +9,7 @@ import Carousel from 'react-bootstrap/Carousel';
 // import BinderIcon from './assets/Binder.svg';
 import BlackFamilyImage from './assets/black_family.png';
 import BlueVortexImage from './assets/blue_vortex.jpeg';
-// import DndBookCoverImage from './assets/dnd_book_cover.jpeg';
 import DndCoolCoversImage from './assets/dnd_cool_covers.webp';
-// import DndGenericColorImage from './assets/dnd_generic_cool_color.webp';
-// import FamilyReading2Image from './assets/familyreading2.webp';
 import GondorGreyImage from './assets/gondor_grey.jpeg';
 import GrandmaReadingImage from './assets/grandma_reading.jpg';
 import GreenImage from './assets/green.jpeg';
@@ -32,6 +29,48 @@ import MarbleCountertopImage from './assets/marble_countertop.jpeg';
 // import StackBookCoversImage from './assets/stack_book_covers.jpeg';
 // import WormwoodImage from './assets/wormwood.jpeg';
 // import NonfictionImage from './assets/nonfiction_better.jpg';
+import { useState } from 'react';
+
+
+function App() {
+
+  // isBlueVortexBought
+  const [isBlueVortexBought, setIsBlueVortexBought] = useState(false);
+  const [isMarbleFacadeBought, setIsMarbleFacadeBought] = useState(false);
+  const [isGondorGreyBought, setIsGondorGreyBought] = useState(false);
+  const [isGreenCoverBought, setIsGreenCoverBought] = useState(false);
+  const [isGryffindorRedBought, setIsGryffindorRedBought] = useState(false);
+
+  // username
+  const [myUsername, setMyUsername] = useState("Unknown");
+
+  return (
+    <>
+      <Router>
+        <div className='App'>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login myUsername={myUsername} setMyUsername={setMyUsername} />} />
+            <Route path="/gallery" element={<Gallery
+              isBlueVortexBought={isBlueVortexBought}
+              setIsBlueVortexBought={setIsBlueVortexBought}
+              isMarbleFacadeBought={isMarbleFacadeBought}
+              setIsMarbleFacadeBought={setIsMarbleFacadeBought}
+              isGondorGreyBought={isGondorGreyBought}
+              setIsGondorGreyBought={setIsGondorGreyBought}
+              isGreenCoverBought={isGreenCoverBought}
+              setIsGreenCoverBought={setIsGreenCoverBought}
+              isGryffindorRedBought={isGryffindorRedBought}
+              setIsGryffindorRedBought={setIsGryffindorRedBought}
+            />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router>
+    </>
+  );
+}
 
 function Navbar() {
   return (
@@ -106,8 +145,9 @@ function CarouselSection() {
   </>;
 }
 
-function Login() {
+function Login({ myUsername, setMyUsername }) {
   const navigate = useNavigate();
+  console.log(`Before, it was: ${myUsername}`);
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
@@ -117,6 +157,8 @@ function Login() {
       alert("Password is blank. Please fill in value.");
     } else {
       let emailValue = (form.email.value === "") ? "no input" : form.email.value;
+      console.log(`The user's name is ${emailValue}`);
+      setMyUsername(emailValue);
 
       console.log(`Login was called with ${emailValue}`);
       alert(`Login successful!`);
@@ -154,8 +196,14 @@ function Login() {
   );
 }
 
-function Gallery() {
+function Gallery({
+  isBlueVortexBought, setIsBlueVortexBought,
+  isGondorGreyBought, setIsGondorGreyBought, isGreenCoverBought,
+  setIsGreenCoverBought, isGryffindorRedBought, setIsGryffindorRedBought,
+  isMarbleFacadeBought, setIsMarbleFacadeBought
+}) {
   return (
+    // TODO: Make it show when the thing is bought. 
     <>
       <Container>
         <h1 className="display-4 fw-bold mb-4">GALLERY</h1>
@@ -170,9 +218,16 @@ function Gallery() {
                 <Card.Text>
                   Low in stock!
                 </Card.Text>
-                <Button onClick={() => alert("You have bought 'Blue Vortex'!")}>BUY NOW</Button>
+                <Button onClick={() => {
+                  if (!isBlueVortexBought) {
+                    alert("You have bought 'Blue Vortex'!");
+                    setIsBlueVortexBought(true);
+                    console.log(isBlueVortexBought); // this should now be true. 
+                  }
+                }}>{!isBlueVortexBought ? "BUY NOW" : "BOUGHT"}</Button>
               </Card.Body>
-            </Card>          </Col>
+            </Card>
+          </Col>
           <Col>
             <Card style={{ width: '18rem' }}>
               <Card.Body>
@@ -180,8 +235,16 @@ function Gallery() {
 
                 <Card.Title>Marble Facade</Card.Title>
                 <Card.Text>
-                  Exotic!                </Card.Text>
-                <Button onClick={() => alert("You have bought 'Marble Facade'!")}>BUY NOW</Button>
+                  Exotic!
+                </Card.Text>
+                <Button onClick={() => {
+                  if (!isMarbleFacadeBought) {
+                    alert("You have bought 'Marble Facade'!");
+                    setIsMarbleFacadeBought(true);
+
+                    console.log(isMarbleFacadeBought); // this should now be true. 
+                  }
+                }}>{!isMarbleFacadeBought ? "BUY NOW" : "BOUGHT"}</Button>
 
               </Card.Body>
             </Card>
@@ -194,8 +257,14 @@ function Gallery() {
                 <Card.Text>
                   Lord of the Rings!
                 </Card.Text>
-                <Button onClick={() => alert("You have bought 'Gondor Grey'!")}>BUY NOW</Button>
+                <Button onClick={() => {
+                  if (!isGondorGreyBought) {
 
+                    alert("You have bought 'Gondor Grey'!");
+                    setIsGondorGreyBought(true);
+                    console.log(`gondor grey is bought: ${isGondorGreyBought}`); // this should now be true. 
+                  }
+                }}>{isGondorGreyBought ? "BOUGHT" : "BUY NOW"}</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -207,8 +276,13 @@ function Gallery() {
                 <Card.Text>
                   Classic forest green!
                 </Card.Text>
-                <Button onClick={() => alert("You have bought 'Green Cover'!")}>BUY NOW</Button>
-
+                <Button onClick={() => {
+                  if (!isGreenCoverBought) {
+                    alert("You have bought 'Green Cover'!");
+                    setIsGreenCoverBought(true);
+                    console.log(isGreenCoverBought); // this should now be true. 
+                  }
+                }}>{isGreenCoverBought ? "BOUGHT" : "BUY NOW"}</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -221,7 +295,13 @@ function Gallery() {
                 <Card.Text>
                   Gryffindor Red is a favorite!
                 </Card.Text>
-                <Button onClick={() => alert("You have bought 'Gryffindor Red'!")}>BUY NOW</Button>
+                <Button onClick={() => {
+                  if (!isGryffindorRedBought) {
+                    alert("You have bought 'Gryffindor Red'!");
+                    setIsGryffindorRedBought(true);
+                    console.log(isGryffindorRedBought); // this should now be true. 
+                  }
+                }}>{isGryffindorRedBought ? "BOUGHT" : "BUY NOW"}</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -230,25 +310,6 @@ function Gallery() {
       </Container >
     </>
     // TODO: First look at the page that shows all of the things you can do with card. 
-  );
-}
-
-function App() {
-  return (
-    <>
-      <Router>
-        <div className='App'>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/gallery" element={<Gallery />} />
-            <Route path="/*" element={<NotFound />} />
-          </Routes>
-        </div>
-      </Router>
-      {/* <h1>It&apos;s Morbin Time Said the Blind Man</h1> */}
-    </>
   );
 }
 
