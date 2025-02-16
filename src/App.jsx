@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 // import Logo from './assets/binder_better.svg'
-import { Button, Form, Container } from "react-bootstrap/Button";
+import { Button, Form, Container } from "react-bootstrap";
 
 function Navbar() {
   return (
@@ -18,7 +18,7 @@ function Navbar() {
       </ul>
     </nav>
   );
-}
+} 
 // Therefore, React-bootstrap works here. 
 function Home() {
   return (
@@ -40,7 +40,7 @@ function Login() {
 
   return (
     <Container>
-      <h2>User Registration</h2>
+      <h2 className="mb-3">Login</h2>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="fullName">
           <Form.Label>Full name</Form.Label>
@@ -52,9 +52,6 @@ function Login() {
           <Form.Text className="text-muted">
             Your email address will never be shared.
           </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="notifications">
-          <Form.Check type="checkbox" label="Receive email notifications" />
         </Form.Group>
         <Button type="submit">
           Submit
