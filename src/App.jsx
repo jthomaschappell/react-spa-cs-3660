@@ -42,16 +42,25 @@ function App() {
   const [isGryffindorRedBought, setIsGryffindorRedBought] = useState(false);
 
   // username
-  const [myUsername, setMyUsername] = useState("Unknown");
+  const [myUsername, setMyUsername] = useState("");
 
   return (
     <>
       <Router>
         <div className='App'>
-          <Navbar />
+          <Navbar myUsername={myUsername} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login myUsername={myUsername} setMyUsername={setMyUsername} />} />
+            <Route path="/login" element={<Login myUsername={myUsername} setMyUsername={setMyUsername} isBlueVortexBought={isBlueVortexBought}
+              setIsBlueVortexBought={setIsBlueVortexBought}
+              isMarbleFacadeBought={isMarbleFacadeBought}
+              setIsMarbleFacadeBought={setIsMarbleFacadeBought}
+              isGondorGreyBought={isGondorGreyBought}
+              setIsGondorGreyBought={setIsGondorGreyBought}
+              isGreenCoverBought={isGreenCoverBought}
+              setIsGreenCoverBought={setIsGreenCoverBought}
+              isGryffindorRedBought={isGryffindorRedBought}
+              setIsGryffindorRedBought={setIsGryffindorRedBought} />} />
             <Route path="/gallery" element={<Gallery
               isBlueVortexBought={isBlueVortexBought}
               setIsBlueVortexBought={setIsBlueVortexBought}
@@ -72,13 +81,37 @@ function App() {
   );
 }
 
-function Navbar() {
+{/* <div>
+  {isBlueVortexBought ? (
+    <>
+      <p className="text-success">Purchased!</p>
+      <small>Added to your library</small>
+      <Button variant="secondary" disabled>Already Owned</Button>
+    </>
+  ) : (
+    <>
+      <p className="text-primary">Available</p>
+      <small>$19.99</small>
+      <Button variant="primary">Buy Now</Button>
+    </>
+  )}
+</div> */}
+
+{/* <ul>
+  <li>Always shown item</li>
+  {isLoggedIn && <li>Only shown when logged in</li>}
+  <li>Another always shown item</li>
+</ul> */}
+
+function Navbar({ myUsername }) {
+  console.log(`My username from navbar: ${myUsername}`);
   return (
     <nav className='navbar'>
       <ul>
         <li><Link to="/gallery">Gallery</Link></li>
         <li><Link to="/">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
+        {(myUsername === "") && <li><Link to="/login">Login</Link></li>}
+        {(myUsername !== "") && <li><Link to="/login">Switch Accounts</Link></li>}
       </ul>
     </nav>
   );
@@ -106,7 +139,6 @@ function Home() {
       <br></br>
       <br></br>
       <br></br>
-
     </>
   );
 }
@@ -145,9 +177,18 @@ function CarouselSection() {
   </>;
 }
 
-function Login({ myUsername, setMyUsername }) {
+function Login({ myUsername, setMyUsername,
+  setIsBlueVortexBought,
+  setIsGondorGreyBought,
+  setIsGreenCoverBought, setIsGryffindorRedBought,
+  setIsMarbleFacadeBought
+}) {
   const navigate = useNavigate();
   console.log(`Before, it was: ${myUsername}`);
+
+  console.log(`Now, it is: ${myUsername}`);
+
+
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
@@ -156,12 +197,18 @@ function Login({ myUsername, setMyUsername }) {
     } else if (form.password.value === "") {
       alert("Password is blank. Please fill in value.");
     } else {
+      // Reset everything for new login
+      setIsBlueVortexBought(false);
+      setIsGondorGreyBought(false);
+      setIsGreenCoverBought(false);
+      setIsGryffindorRedBought(false);
+      setIsMarbleFacadeBought(false);
       let emailValue = (form.email.value === "") ? "no input" : form.email.value;
       console.log(`The user's name is ${emailValue}`);
       setMyUsername(emailValue);
 
       console.log(`Login was called with ${emailValue}`);
-      alert(`Login successful!`);
+      alert(`Login successful for user: ${emailValue}!`);
       navigate("/");
     }
 
