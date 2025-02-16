@@ -8,6 +8,17 @@
   margin-bottom: 1rem;
 }
 
+.btn-primary:hover {
+  background-color: #CCD5AE !important;  /* Your sage green */
+  border-color: #CCD5AE !important;
+}
+
+/* For hover state */
+.btn-primary {
+  background-color: #D4A373 !important;  /* Your caramel color */
+  border-color: #D4A373 !important;
+}
+
 .navbar {
   /* background-color: #CCD5AE; */
   padding: 1rem;
