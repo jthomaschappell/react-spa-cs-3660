@@ -8,6 +8,12 @@
   margin-bottom: 1rem;
 }
 
+.card-image-top {
+  height: 350px; 
+  width: 100; 
+  object-fit: cover;
+}
+
 .btn-primary:hover {
   background-color: #CCD5AE !important;
   /* Your sage green */
