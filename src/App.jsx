@@ -14,21 +14,8 @@ import GondorGreyImage from './assets/gondor_grey.jpeg';
 import GrandmaReadingImage from './assets/grandma_reading.jpg';
 import GreenImage from './assets/green.jpeg';
 import GryffindorRedImage from './assets/gryffindor_red.jpeg';
-// import HogwartsImage from './assets/hogwarts.webp';
-// import KidsBookCoverImage from './assets/kids_book_cover.webp';
-// import LibraryFamily3Image from './assets/library_family_3.jpg';
 import LittleWomenImage from './assets/little_women.jpg';
-// import LogoIcon from './assets/logo.svg';
-// import LordOfRingsImage from './assets/lord_of_rings.jpg';
 import MarbleCountertopImage from './assets/marble_countertop.jpeg';
-// import MomAndCurlyHairedImage from './assets/mom_and_curly_haired.jpeg';
-// import NonfictionMaybeImage from './assets/nonfiction_maybe.jpg';
-// import PinkTajMahalImage from './assets/pink_taj_mahal.jpeg';
-// import QuiltyImage from './assets/quilty.jpeg';
-// import ReactIcon from './assets/react.svg';
-// import StackBookCoversImage from './assets/stack_book_covers.jpeg';
-// import WormwoodImage from './assets/wormwood.jpeg';
-// import NonfictionImage from './assets/nonfiction_better.jpg';
 import { useState } from 'react';
 
 
@@ -80,29 +67,6 @@ function App() {
     </>
   );
 }
-
-{/* <div>
-  {isBlueVortexBought ? (
-    <>
-      <p className="text-success">Purchased!</p>
-      <small>Added to your library</small>
-      <Button variant="secondary" disabled>Already Owned</Button>
-    </>
-  ) : (
-    <>
-      <p className="text-primary">Available</p>
-      <small>$19.99</small>
-      <Button variant="primary">Buy Now</Button>
-    </>
-  )}
-</div> */}
-
-{/* <ul>
-  <li>Always shown item</li>
-  {isLoggedIn && <li>Only shown when logged in</li>}
-  <li>Another always shown item</li>
-</ul> */}
-
 function Navbar({ myUsername }) {
   console.log(`My username from navbar: ${myUsername}`);
   return (
@@ -207,7 +171,7 @@ function Login({ myUsername, setMyUsername,
       console.log(`The user's name is ${emailValue}`);
       setMyUsername(emailValue);
 
-      console.log(`Login was called with ${emailValue}`);
+      // console.log(`Login was called with ${emailValue}`);
       alert(`Login successful for user: ${emailValue}!`);
       navigate("/");
     }
@@ -216,7 +180,6 @@ function Login({ myUsername, setMyUsername,
   return (
     <Container className="mt-4 d-flex justify-content-center">
 
-      {/* <h2 className="mb-3">Login</h2> */}
       <Card style={{ width: '400px' }}>
         <Card.Body>
           <div className="text-center mt-4 mb-4">
@@ -250,7 +213,6 @@ function Gallery({
   isMarbleFacadeBought, setIsMarbleFacadeBought
 }) {
   return (
-    // TODO: Make it show when the thing is bought. 
     <>
       <Container>
         <h1 className="display-4 fw-bold mb-4">GALLERY</h1>
@@ -356,7 +318,6 @@ function Gallery({
 
       </Container >
     </>
-    // TODO: First look at the page that shows all of the things you can do with card. 
   );
 }
 
