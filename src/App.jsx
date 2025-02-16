@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-// import Logo from './assets/binder_better.svg'
 import { Button, Card, Form, Container } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Logo from './assets/logo.svg';
@@ -25,7 +24,7 @@ function Home() {
       <h1 className="display-4 fw-bold mb-4">Custom Book Covers,<br></br> Tailored to Your Story</h1>
       <p className="lead text-muted mb-4 fw-semibold">Transform your books with perfectly fitted, beautifully designed covers
       </p>
-      <Button className="mb-4" onClick={() => alert("You just scheduled a demo!")}>LEARN MORE</Button>
+      <Button className="mb-4" onClick={() => alert("Contact support@binder.com to learn more!")}>LEARN MORE</Button>
 
       {/* We need a Call to Action button here */}
       <div className="d-flex justify-content-center mb-4">
@@ -36,13 +35,22 @@ function Home() {
 }
 
 function Login() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   function handleSubmit(event) {
     event.preventDefault();
-    // const form = event.target;
-    // TODO: Test this. 
-    alert(`Login successful!`);
-    navigate("/"); 
+    const form = event.target;
+    if (form.email.value === "") {
+      alert("Email is blank. Please fill in value.");
+    } else if (form.password.value === "") {
+      alert("Password is blank. Please fill in value.");
+    } else {
+      let emailValue = (form.email.value === "") ? "no input" : form.email.value;
+
+      console.log(`Login was called with ${emailValue}`);
+      alert(`Login successful!`);
+      navigate("/");
+    }
+
   }
   return (
     <Container className="mt-4 d-flex justify-content-center">
@@ -51,10 +59,10 @@ function Login() {
       <Card style={{ width: '400px' }}>
         <Card.Body>
           <div className="text-center mt-4 mb-4">
-            <img src={Logo} alt="Binder Logo" style={{ width: "250px", height: 'auto' }} />
+
+            <img className="rounded-4" src={Logo} alt="Binder Logo" style={{ width: "250px", height: 'auto', border: "1px solid #CCD5AE" }} />
           </div>
           <Card.Title as="h1" className="mb-4 text-center">Login</Card.Title>
-          {/* TODO: How do I include an imported SVG here? */}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-4" controlId="email">
               <Form.Label>Email</Form.Label>
