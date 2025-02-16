@@ -1,6 +1,18 @@
 .App {
   text-align: center;
   padding: 20px;
+  height: 100%;
+}
+
+.mother {
+  display: flex;
+  /* Add this */
+  /* flex-direction: column;  */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* Add this */
+  /* text-align: center;  */
 }
 
 .navbar {
