@@ -2,7 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 // import Logo from './assets/binder_better.svg'
-import { Button, Form, Container } from "react-bootstrap";
+import { Button, Card, Form, Container } from "react-bootstrap";
+import Logo from './assets/logo.svg';
 
 function Navbar() {
   return (
@@ -18,7 +19,7 @@ function Navbar() {
       </ul>
     </nav>
   );
-} 
+}
 // Therefore, React-bootstrap works here. 
 function Home() {
   return (
@@ -33,30 +34,36 @@ function Login() {
   function handleSubmit(event) {
     event.preventDefault();
     const form = event.target;
-    alert(`Name: ${form.fullName.value}\n` +
-      `Email: ${form.email.value}\n` +
-      `Notif: ${form.notifications.checked}`);
+    alert(`Name: ${form.email.value}\n` +
+      `Email: ${form.password.value}\n`);
   }
 
   return (
-    <Container>
-      <h2 className="mb-3">Login</h2>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="fullName">
-          <Form.Label>Full name</Form.Label>
-          <Form.Control type="text" placeholder="First Last" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="user@email.com" />
-          <Form.Text className="text-muted">
-            Your email address will never be shared.
-          </Form.Text>
-        </Form.Group>
-        <Button type="submit">
-          Submit
-        </Button>
-      </Form>
+    <Container className="mt-4 d-flex justify-content-center">
+
+      {/* <h2 className="mb-3">Login</h2> */}
+      <Card style={{ width: '400px'}}>
+      <Card.Body>
+      <div className="text-center mt-4 mb-4">
+            <img src={Logo} alt="Binder Logo" style={{ width: "250px", height: 'auto' }} />
+          </div>
+          <Card.Title as="h1" className="mb-4 text-center">Login</Card.Title>
+          {/* TODO: How do I include an imported SVG here? */}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-4" controlId="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" placeholder="Enter email here..." />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control className="mb-4" type="password" placeholder="Enter password here..." />
+            </Form.Group>
+            <Button type="submit">
+              Submit
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }
