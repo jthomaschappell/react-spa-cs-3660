@@ -171,7 +171,7 @@ function Login({ myUsername, setMyUsername,
       console.log(`The user's name is ${emailValue}`);
       setMyUsername(emailValue);
 
-      console.log(`Login was called with ${emailValue}`);
+      // console.log(`Login was called with ${emailValue}`);
       alert(`Login successful for user: ${emailValue}!`);
       navigate("/");
     }
@@ -180,7 +180,6 @@ function Login({ myUsername, setMyUsername,
   return (
     <Container className="mt-4 d-flex justify-content-center">
 
-      {/* <h2 className="mb-3">Login</h2> */}
       <Card style={{ width: '400px' }}>
         <Card.Body>
           <div className="text-center mt-4 mb-4">
@@ -214,7 +213,6 @@ function Gallery({
   isMarbleFacadeBought, setIsMarbleFacadeBought
 }) {
   return (
-    // TODO: Make it show when the thing is bought. 
     <>
       <Container>
         <h1 className="display-4 fw-bold mb-4">GALLERY</h1>
