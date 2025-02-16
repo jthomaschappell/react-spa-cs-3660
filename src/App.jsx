@@ -1,37 +1,37 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Button, Card, Form, Container } from "react-bootstrap";
+import { Button, Card, Form, Container, Row, Col } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Logo from './assets/logo.svg';
 import Carousel from 'react-bootstrap/Carousel';
 
 // import BinderIcon from './assets/Binder.svg';
 import BlackFamilyImage from './assets/black_family.png';
-// import BlueVortexImage from './assets/blue_vortex.jpeg';
-// import DndBookCoverImage from './assets/dnd_book_cover.jpeg';
+import BlueVortexImage from './assets/blue_vortex.jpeg';
+import DndBookCoverImage from './assets/dnd_book_cover.jpeg';
 import DndCoolCoversImage from './assets/dnd_cool_covers.webp';
 // import DndGenericColorImage from './assets/dnd_generic_cool_color.webp';
 // import FamilyReading2Image from './assets/familyreading2.webp';
-// import GondorGreyImage from './assets/gondor_grey.jpeg';
+import GondorGreyImage from './assets/gondor_grey.jpeg';
 import GrandmaReadingImage from './assets/grandma_reading.jpg';
-// import GreenImage from './assets/green.jpeg';
-// import GryffindorRedImage from './assets/gryffindor_red.jpeg';
-// import HogwartsImage from './assets/hogwarts.webp';
-// import KidsBookCoverImage from './assets/kids_book_cover.webp';
+import GreenImage from './assets/green.jpeg';
+import GryffindorRedImage from './assets/gryffindor_red.jpeg';
+import HogwartsImage from './assets/hogwarts.webp';
+import KidsBookCoverImage from './assets/kids_book_cover.webp';
 // import LibraryFamily3Image from './assets/library_family_3.jpg';
 import LittleWomenImage from './assets/little_women.jpg';
 // import LogoIcon from './assets/logo.svg';
-// import LordOfRingsImage from './assets/lord_of_rings.jpg';
-// import MarbleCountertopImage from './assets/marble_countertop.jpeg';
+import LordOfRingsImage from './assets/lord_of_rings.jpg';
+import MarbleCountertopImage from './assets/marble_countertop.jpeg';
 // import MomAndCurlyHairedImage from './assets/mom_and_curly_haired.jpeg';
-// import NonfictionMaybeImage from './assets/nonfiction_maybe.jpg';
-// import PinkTajMahalImage from './assets/pink_taj_mahal.jpeg';
-// import QuiltyImage from './assets/quilty.jpeg';
+import NonfictionMaybeImage from './assets/nonfiction_maybe.jpg';
+import PinkTajMahalImage from './assets/pink_taj_mahal.jpeg';
+import QuiltyImage from './assets/quilty.jpeg';
 // import ReactIcon from './assets/react.svg';
 // import StackBookCoversImage from './assets/stack_book_covers.jpeg';
 // import WormwoodImage from './assets/wormwood.jpeg';
-// import NonfictionImage from './assets/nonfiction_better.jpg';
+import NonfictionImage from './assets/nonfiction_better.jpg';
 
 function Navbar() {
   return (
@@ -47,6 +47,7 @@ function Navbar() {
 // Therefore, React-bootstrap works here. 
 function Home() {
   const navigate = useNavigate();
+
   return (
     <>
       <img className="rounded-5 mb-4" src={Logo} alt="Binder Logo" style={{ width: "500px", height: 'auto', border: "1px solid #CCD5AE" }} />
@@ -63,7 +64,12 @@ function Home() {
       <br></br>
       <br></br>
       <br></br>
-      <Button size="lg" className="mb-4" onClick={() => alert("Contact support@binder.com to learn more!")}>LEARN MORE</Button>
+      <Button size="lg" className="mb-4" onClick={
+        () => {
+          alert("Contact support@binder.com to learn more!")
+          // console.log("Pressed!");
+
+        }}>LEARN MORE</Button>
       <br></br>
       <br></br>
       <br></br>
@@ -153,11 +159,139 @@ function Login() {
     </Container>
   );
 }
+// TODO: How to make the spacing always show up. 
+
+
+function ProductCard({ myTitle, myMessage, myImage }) {
+  
+  let cards = [
+    {
+      title: "Blue Vortex",
+      message: "The blue vortex is an excellent product choice!",
+      image: { BlueVortexImage }
+    },
+    {
+      title: "D&D Book Cover",
+      message: "This book cover is great for D&D players!",
+      image: { DndBookCoverImage }
+    },
+    {
+      title: "Gondor Grey",
+      message: "This Gondor Grey cover reminds you of Lord of the Rings!",
+      image: { GondorGreyImage }
+    },
+    {
+      title: "Green",
+      message: "Great, non-bombastic green cover!",
+      image: { GreenImage }
+    },
+    {
+      title: "Gryffindor Red",
+      message: "Harry Potter!",
+      image: { GryffindorRedImage }
+    },
+    {
+      title: "Hogwarts Collection",
+      message: "This is great for Harry Potter fans!",
+      image: { HogwartsImage }
+    },
+    {
+      title: "Kids Book Covers",
+      message: "Explore our kids collection!",
+      image: { KidsBookCoverImage }
+    },
+    {
+      title: "Classic Collection",
+      message: "This book cover style is great for the literary classics!",
+      image: { LittleWomenImage }
+    },
+    {
+      title: "Lord of the Rings Cover",
+      message: "Not all those who wander are lost...",
+      image: { LordOfRingsImage }
+    },
+    {
+      title: "Marble Countertop",
+      message: "Great color scheme on this one!",
+      image: { MarbleCountertopImage }
+    },
+    {
+      title: "Nonfiction 1",
+      message: "Great nonfiction covers!",
+      image: { NonfictionMaybeImage }
+    },
+    {
+      title: "Nonfiction 2",
+      message: "More great nonfiction covers!",
+      image: { NonfictionImage }
+    },
+    {
+      title: "Pink Taj Mahal",
+      message: "This one is inspired by Southeast Asia!",
+      image: { PinkTajMahalImage }
+    },
+    {
+      title: "Quilty",
+      message: "Reminds you of your Grandma's quilts!",
+      image: { QuiltyImage }
+    },
+  ];
+
+  return (
+    <Card style={{ width: '18rem' }}>
+      <Card.Img variant="top" src={myImage} />
+      <Card.Body>
+        <Card.Title>{myTitle}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+        <Card.Text>
+          {myMessage}
+        </Card.Text>
+        <Button onClick={() => {
+          console.log("Pressed!");
+          for (let item of cards) {
+            console.log(item);
+          }
+
+        }}>Buy Now</Button>
+        {/* <Button size="lg" className="mb-4" onClick={
+        () => {
+          alert("Contact support@binder.com to learn more!")
+          // console.log("Pressed!");
+
+        }}>LEARN MORE</Button> */}
+        {/* <Card.Link href="#">Card Link</Card.Link> */}
+        {/* <Card.Link href="#">Another Link</Card.Link> */}
+      </Card.Body>
+    </Card>
+  );
+}
+
+
 
 function Gallery() {
   return (
     <>
-      <h1>This is the Gallery Page</h1></>
+      <Container fluid>
+        <h1 className="display-4 fw-bold mb-4">GALLERY</h1>
+        {/* This means 1 for xsmall screens, 2 for small screens, 3 for medium, 4 for large screens. */}
+        {/* g-4 means that there is a gutter between them of 4. */}
+        <Row xs={1} sm={2} md={3} lg={4}>
+          {/* map function */}
+
+          {/* {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
+            <Col key={index} className="d-flex gallery-card mb-4" style={{ minWidth: '280px' }}><ProductCard /></Col>
+          ))} */}
+
+          {cards.map((card, index) => (
+            <Col key={index} className="d-flex mb-4" style={{minWidth: '280px'}}>ProductCard myTitle = {card.title} myMessage = {card.message} myImage={card.image}</Col>
+            // <Col className="d-flex mb-4" style={{minWidth: '280px'}} key={index} myTitle={card.title} myMessage = {card.message} myImage={card.image}/>
+          ))};
+
+        </Row>
+
+      </Container >
+    </>
+    // TODO: First look at the page that shows all of the things you can do with card. 
   );
 }
 
