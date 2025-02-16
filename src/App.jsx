@@ -4,7 +4,34 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Button, Card, Form, Container } from "react-bootstrap";
 import { useNavigate } from 'react-router-dom';
 import Logo from './assets/logo.svg';
-import MainImage from './assets/grandma_reading.jpg';
+import Carousel from 'react-bootstrap/Carousel';
+
+// import BinderIcon from './assets/Binder.svg';
+import BlackFamilyImage from './assets/black_family.png';
+// import BlueVortexImage from './assets/blue_vortex.jpeg';
+// import DndBookCoverImage from './assets/dnd_book_cover.jpeg';
+import DndCoolCoversImage from './assets/dnd_cool_covers.webp';
+// import DndGenericColorImage from './assets/dnd_generic_cool_color.webp';
+// import FamilyReading2Image from './assets/familyreading2.webp';
+// import GondorGreyImage from './assets/gondor_grey.jpeg';
+import GrandmaReadingImage from './assets/grandma_reading.jpg';
+// import GreenImage from './assets/green.jpeg';
+// import GryffindorRedImage from './assets/gryffindor_red.jpeg';
+// import HogwartsImage from './assets/hogwarts.webp';
+// import KidsBookCoverImage from './assets/kids_book_cover.webp';
+// import LibraryFamily3Image from './assets/library_family_3.jpg';
+import LittleWomenImage from './assets/little_women.jpg';
+// import LogoIcon from './assets/logo.svg';
+// import LordOfRingsImage from './assets/lord_of_rings.jpg';
+// import MarbleCountertopImage from './assets/marble_countertop.jpeg';
+// import MomAndCurlyHairedImage from './assets/mom_and_curly_haired.jpeg';
+// import NonfictionMaybeImage from './assets/nonfiction_maybe.jpg';
+// import PinkTajMahalImage from './assets/pink_taj_mahal.jpeg';
+// import QuiltyImage from './assets/quilty.jpeg';
+// import ReactIcon from './assets/react.svg';
+// import StackBookCoversImage from './assets/stack_book_covers.jpeg';
+// import WormwoodImage from './assets/wormwood.jpeg';
+// import NonfictionImage from './assets/nonfiction_better.jpg';
 
 function Navbar() {
   return (
@@ -19,19 +46,64 @@ function Navbar() {
 }
 // Therefore, React-bootstrap works here. 
 function Home() {
+  const navigate = useNavigate();
   return (
     <>
+      <img className="rounded-5 mb-4" src={Logo} alt="Binder Logo" style={{ width: "500px", height: 'auto', border: "1px solid #CCD5AE" }} />
       <h1 className="display-4 fw-bold mb-4">Custom Book Covers,<br></br> Tailored to Your Story</h1>
-      <p className="lead text-muted mb-4 fw-semibold">Transform your books with perfectly fitted, beautifully designed covers
-      </p>
-      <Button className="mb-4" onClick={() => alert("Contact support@binder.com to learn more!")}>LEARN MORE</Button>
+      <p className="lead text-muted mb-4 fw-semibold">Transform your books with perfectly fitted, beautifully designed covers</p>
+      <Button size="lg" className="mb-4" onClick={() => navigate('/gallery')}>SEE GALLERY</Button>
 
       {/* We need a Call to Action button here */}
       <div className="d-flex justify-content-center mb-4">
-        <img src={MainImage} className="img-fluid w-100 rounded-4" alt="description" />
+        <img src={GrandmaReadingImage} className="img-fluid mb-5 w-100 rounded-4" alt="description" />
       </div>
+      {/* <MenuList /> */}
+      <CarouselSection />
+      <br></br>
+      <br></br>
+      <br></br>
+      <Button size="lg" className="mb-4" onClick={() => alert("Contact support@binder.com to learn more!")}>LEARN MORE</Button>
+      <br></br>
+      <br></br>
+      <br></br>
+
     </>
   );
+}
+
+function NotFound() {
+  return <h1>404 Error: Page Not Found!</h1>;
+}
+
+function CarouselSection() {
+  return <>
+    <h2 className="text-muted mb-5 fw-semibold">NEWS</h2>
+    <Carousel>
+      <Carousel.Item>
+        <img src={DndCoolCoversImage} alt="First slide" className='carousel-image'
+        />
+        <Carousel.Caption>
+          <h3>New D&D Covers!</h3>
+          <p>Get a custom D&D cover for your Dungeon Master, or for anyone you know who plays D&D!.</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src={BlackFamilyImage} alt="Second slide" className='carousel-image' />
+        <Carousel.Caption>
+          <h3>Encourage Reading</h3>
+          <p>Children enjoy reading more when it becomes a game or adventure to them - Binder covers can help make that difference!</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+      <Carousel.Item>
+        <img src={LittleWomenImage} alt="Third slide" className='carousel-image' />
+        <Carousel.Caption>
+          <h3 style={{ color: '' }}>New Classic Selections!</h3>
+          <p style={{ color: '' }}>Check out the gallery!</p>
+        </Carousel.Caption>
+      </Carousel.Item>
+    </Carousel>
+  </>;
 }
 
 function Login() {
@@ -99,6 +171,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>
