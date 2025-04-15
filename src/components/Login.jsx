@@ -9,11 +9,10 @@ function Login({ myUsername, setMyUsername,
   setIsMarbleFacadeBought
 }) {
   const navigate = useNavigate();
-  console.log(`Before, it was: ${myUsername}`);
-  console.log(`Now, it is: ${myUsername}`);
 
   function handleSubmit(event) {
     event.preventDefault();
+    console.log("handleSubmit called");
     const form = event.target;
     if (form.email.value === "") {
       alert("Email is blank. Please fill in value.");
@@ -26,6 +25,8 @@ function Login({ myUsername, setMyUsername,
       setIsGreenCoverBought(false);
       setIsGryffindorRedBought(false);
       setIsMarbleFacadeBought(false);
+
+      // login logic. 
       let emailValue = (form.email.value === "") ? "no input" : form.email.value;
       console.log(`The user's name is ${emailValue}`);
       setMyUsername(emailValue);

@@ -8,6 +8,9 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Gallery from './components/Gallery';
 import NotFound from './components/NotFound';
+import { AuthContext } from './context/AuthContext';
+import AuthRoute from './AuthRoute';
+import Admin from './components/Admin';
 
 function App() {
   const [isBlueVortexBought, setIsBlueVortexBought] = useState(false);
@@ -48,6 +51,9 @@ function App() {
               isGryffindorRedBought={isGryffindorRedBought}
               setIsGryffindorRedBought={setIsGryffindorRedBought}
             />} />
+            <Route element={<AuthRoute />}>
+              <Route path="/admin" element={<Admin />} />
+            </Route>
             <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
