@@ -8,7 +8,6 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Gallery from './components/Gallery';
 import NotFound from './components/NotFound';
-import { AuthContext } from './context/AuthContext';
 import AuthRoute from './AuthRoute';
 import Admin from './components/Admin';
 
@@ -19,38 +18,28 @@ function App() {
   const [isGreenCoverBought, setIsGreenCoverBought] = useState(false);
   const [isGryffindorRedBought, setIsGryffindorRedBought] = useState(false);
 
-  // username
-  const [myUsername, setMyUsername] = useState("");
-
   return (
     <>
       <Router>
         <div className='App'>
-          <Navbar myUsername={myUsername} />
+          <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login myUsername={myUsername} setMyUsername={setMyUsername} isBlueVortexBought={isBlueVortexBought}
-              setIsBlueVortexBought={setIsBlueVortexBought}
-              isMarbleFacadeBought={isMarbleFacadeBought}
-              setIsMarbleFacadeBought={setIsMarbleFacadeBought}
-              isGondorGreyBought={isGondorGreyBought}
-              setIsGondorGreyBought={setIsGondorGreyBought}
-              isGreenCoverBought={isGreenCoverBought}
-              setIsGreenCoverBought={setIsGreenCoverBought}
-              isGryffindorRedBought={isGryffindorRedBought}
-              setIsGryffindorRedBought={setIsGryffindorRedBought} />} />
-            <Route path="/gallery" element={<Gallery
-              isBlueVortexBought={isBlueVortexBought}
-              setIsBlueVortexBought={setIsBlueVortexBought}
-              isMarbleFacadeBought={isMarbleFacadeBought}
-              setIsMarbleFacadeBought={setIsMarbleFacadeBought}
-              isGondorGreyBought={isGondorGreyBought}
-              setIsGondorGreyBought={setIsGondorGreyBought}
-              isGreenCoverBought={isGreenCoverBought}
-              setIsGreenCoverBought={setIsGreenCoverBought}
-              isGryffindorRedBought={isGryffindorRedBought}
-              setIsGryffindorRedBought={setIsGryffindorRedBought}
-            />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/gallery" element={
+              <Gallery
+                isBlueVortexBought={isBlueVortexBought}
+                setIsBlueVortexBought={setIsBlueVortexBought}
+                isMarbleFacadeBought={isMarbleFacadeBought}
+                setIsMarbleFacadeBought={setIsMarbleFacadeBought}
+                isGondorGreyBought={isGondorGreyBought}
+                setIsGondorGreyBought={setIsGondorGreyBought}
+                isGreenCoverBought={isGreenCoverBought}
+                setIsGreenCoverBought={setIsGreenCoverBought}
+                isGryffindorRedBought={isGryffindorRedBought}
+                setIsGryffindorRedBought={setIsGryffindorRedBought}
+              />
+            } />
             <Route element={<AuthRoute />}>
               <Route path="/admin" element={<Admin />} />
             </Route>

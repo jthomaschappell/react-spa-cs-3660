@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, Form, Container } from "react-bootstrap";
 import Logo from '../assets/logo.svg';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
-function Login({ myUsername, setMyUsername,
-  setIsBlueVortexBought,
-  setIsGondorGreyBought,
-  setIsGreenCoverBought, setIsGryffindorRedBought,
-  setIsMarbleFacadeBought
-}) {
+// TODO: Add back in the persistence of setIsBlueVortexBought, setIsGondorGreyBought,
+// setIsGreenCoverBought, setIsGryffindorRedBought, setIsMarbleFacadeBought. 
+
+function Login() {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -19,19 +20,13 @@ function Login({ myUsername, setMyUsername,
     } else if (form.password.value === "") {
       alert("Password is blank. Please fill in value.");
     } else {
-      // Reset everything for new login
-      setIsBlueVortexBought(false);
-      setIsGondorGreyBought(false);
-      setIsGreenCoverBought(false);
-      setIsGryffindorRedBought(false);
-      setIsMarbleFacadeBought(false);
-
-      // login logic. 
-      let emailValue = (form.email.value === "") ? "no input" : form.email.value;
-      console.log(`The user's name is ${emailValue}`);
-      setMyUsername(emailValue);
-      alert(`Login successful for user: ${emailValue}!`);
-      navigate("/");
+      const success = login(form.email.value, form.password.value);
+      if (success) {
+        alert(`Login successful for user: ${form.email.value}!`);
+        navigate("/");
+      } else {
+        alert("Login failed. Please try again.");
+      }
     }
   }
 

@@ -2,16 +2,41 @@
 // // import { Link } from 'react-router-dom';
 
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
-function Navbar({ myUsername }) {
-  console.log(`My username from navbar: ${myUsername}`);
+function Navbar() {
+  const { isLoggedIn, token, logout } = useContext(AuthContext);
+
   return (
     <nav className='navbar'>
       <ul>
         <li><Link to="/gallery">Gallery</Link></li>
         <li><Link to="/">Home</Link></li>
-        {(myUsername === "") && <li><Link to="/login">Login</Link></li>}
-        {(myUsername !== "") && <li><Link to="/login">Switch Accounts</Link></li>}
+        {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
+        {isLoggedIn && (
+          <>
+            <li>
+              <Link to="/admin">Admin
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="profile-icon"
+                  width="24"
+                  height="24"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
