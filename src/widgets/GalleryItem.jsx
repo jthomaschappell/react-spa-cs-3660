@@ -10,11 +10,17 @@ function GalleryItem({
     return (
         <div>
             <Col>
-                <Card style={{ width: '18rem' }}>
+                <Card>
                     <Card.Body>
                         <Card.Img className="card-image-top" variant="top" src={image} />
-                        <Card.Title>{name}</Card.Title>
-                        <Card.Text>
+                        <Card.Title style={{ 
+                            wordWrap: 'break-word',
+                            overflow: 'hidden'
+                        }}>{name}</Card.Title>
+                        <Card.Text style={{
+                            wordWrap: 'break-word',
+                            overflow: 'hidden'
+                        }}>
                             {description}
                         </Card.Text>
                         <Button onClick={() => {

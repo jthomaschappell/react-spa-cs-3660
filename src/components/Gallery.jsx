@@ -1,4 +1,4 @@
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 import BlueVortexImage from '../assets/blue_vortex.jpeg';
 import MarbleCountertopImage from '../assets/marble_countertop.jpeg';
 import GondorGreyImage from '../assets/gondor_grey.jpeg';
@@ -7,11 +7,11 @@ import GryffindorRedImage from '../assets/gryffindor_red.jpeg';
 import GalleryItem from '../widgets/GalleryItem';
 import { useState, useEffect } from 'react';
 
+// helper function to format the book title to be used in the search query.
+const formatBookTitle = bookTitle => bookTitle.replaceAll(" ", "+").toLowerCase();
+
 function Gallery({
-  isBlueVortexBought, setIsBlueVortexBought,
-  isGondorGreyBought, setIsGondorGreyBought, isGreenCoverBought,
-  setIsGreenCoverBought, isGryffindorRedBought, setIsGryffindorRedBought,
-  isMarbleFacadeBought, setIsMarbleFacadeBought
+  purchasedItems, setPurchasedItems
 }) {
 
   // set the book covers array with nothing. It will load in the array of strings for urls.
@@ -20,11 +20,9 @@ function Gallery({
   const [error, setError] = useState(null);
   const coversUrl = "https://covers.openlibrary.org/b/id/";
   const booksUrl = "https://openlibrary.org/search.json";
-  const [cover, setCover] = useState(null);
-  const [mockTitle, setMockTitle] = useState(null);
-  const [mockAuthor, setMockAuthor] = useState(null); 
-
-  const formatBookTitle = bookTitle => bookTitle.replaceAll(" ", "+").toLowerCase();
+  const [coverIds, setCoverIds] = useState([]);
+  const [titles, setTitles] = useState([]);
+  const [authors, setAuthors] = useState([]);
 
   const bookTitles = [
     "Lord of the Rings",
@@ -35,11 +33,12 @@ function Gallery({
   ];
 
   useEffect(() => {
+
     const formattedBookTitles = [];
     // Effect code here
     console.log('Component mounted');
-    for (var book of bookTitles) {
-      console.log(`Book title: ${book}`);
+    for (let book of bookTitles) {
+      console.log(`Book title: ${book.title}`);
       formattedBookTitles.push(formatBookTitle(book));
     }
     console.log(`Formatted book titles: ${formattedBookTitles}`);
@@ -49,52 +48,61 @@ function Gallery({
     // TODO: STATE OF THE UNION: 
     // TODO: Work on the rules that render the book cover. 
 
-    // <img src={SWAPIimageConfig.thumbnails[film.episode_id]} alt={film.title} className="card-img-top img-fluid"
-
-
+    /**
+     * fetchBookResponse happens on mount. 
+     * 
+     * fetchBookResponse: 
+     * uses the titles and pulls the authors and the cover id's. 
+     * It adds those to the object array. 
+     * 
+     * 
+     */
 
 
     const fetchBookResponse = async () => {
-      console.log(`Fetching book response for ${formattedBookTitles[1]}`);
-      try {
-        // get title data. 
-        const response = await fetch(`${booksUrl}?title=${formattedBookTitles[1]}`);
-        const data = await response.json();
-        // console.log(JSON.stringify(data));
+      // console.log(`Fetching book response for ${formattedBookTitles[1]}`);
+      console.log("Fetching book responses!");
 
-        // title
-        const title = data.docs[0].title;
-        console.log(`Title: ${title}`);
-        setMockTitle(title);
+      const results = await Promise.all(
+        formattedBookTitles.map(title => fetch(`${booksUrl}?title=${title}`).then(res => res.json()))
+      );
 
-        // author
-        const author = data.docs[0].author_name;
-        console.log(`Author: ${author}`);
-        setMockAuthor(author); 
+      const myCoverIds = [];
+      const myTitles = [];
+      const myAuthors = [];
 
-        // cover id
-        const coverId = data.docs[0].cover_i;
-        console.log(`Cover ID: ${coverId}`);
-
-        // fetch the cover
-        try {
-          // TODO: 
-          // TODO: 12818862 is the ID for Wuthering Heights. 
-          const coverResponse = await fetch(`${coversUrl}${coverId}-L.jpg`);
-          if (!coverResponse.ok) {
-            throw new Error(`Failed to fetch cover for ${formattedBookTitles[1]}`);
-          }
-          setCover(coverResponse); 
-      
-        } catch (err) {
-          console.log(`Book covers error: ${err}`);
-        }
-      } catch (err) {
-        console.log(`Error: ${err}`);
-      } finally {
-        setIsLoading(false);
+      for (var result of results) {
+        console.log(result);
       }
+
+      for (var result of results) {
+
+        let coverId = result.docs[0].cover_i;
+        console.log(`Cover id is ${coverId}`);
+        myCoverIds.push(coverId);
+
+        let title = result.docs[0].title;
+        console.log(`Title is ${title}`);
+        myTitles.push(title);
+
+        let author = result.docs[0].author_name;
+        console.log(`Author is ${author}`);
+        myAuthors.push(author);
+      }
+
+      for (var i = 0; i < myCoverIds.length; i++) {
+        console.log("--------------------------------");
+        console.log(`Index is ${i}`);
+        console.log(`Cover id is ${myCoverIds[i]}`);
+        console.log(`Title is ${myTitles[i]}`);
+        console.log(`Author is ${myAuthors[i]}`);
+      }
+
+      setCoverIds(myCoverIds);
+      setTitles(myTitles);
+      setAuthors(myAuthors);
     }
+    setIsLoading(false);
 
     fetchBookResponse();
 
@@ -103,74 +111,6 @@ function Gallery({
       console.log('Component will unmount');
     };
   }, []); // Empty dependency array means this runs once on mount
-
-
-  // const bookIds = [
-  //   "14625765",
-  //   "12818862",
-  //   "14348537",
-  //   "12216503",
-  //   "8775559"
-  // ];
-  // const coversUrl = "https://covers.openlibrary.org/b/id/"
-
-
-  // /**
-  //  * Fetch each of the book covers upon startup (when this component renders)
-  //  * Give appropriate error messages when images are not able to be loaded. 
-  //  * Thought: use useEffect and it does the fetch 
-  //  * 
-  //  * 
-  //  * TODO: Test. Do a fetch and show in the console.log
-  //  * TODO: Look at Fahim's code for this. 
-  //  */
-
-  // useEffect(() => {
-  //   const fetchBookCovers = async () => {
-  //     try {
-  //       setIsLoading(true);
-
-  //       const promises = bookIds.map(bookId => fetch(`${coversUrl}${bookId}-L.jpg`)
-  //         .then(response => {
-  //           if (!response.ok) throw new Error(`Failed to fetch book ${bookId}`);
-  //           return response.json();
-  //         })
-  //       );
-
-  //       // wait for promises to resolve
-  //       const results = await Promise.all(promises); 
-  //       setBookCovers(results); 
-
-  //     } catch(error) {
-  //       console.log(`Error was ${error}`);
-  //       setError(error); 
-  //     } finally {
-  //       setIsLoading(false); 
-  //     }
-
-  //   const data = fetchBookCovers(); 
-  //   console.log(`The data is ${data}`);
-  // }, []); 
-
-
-  /**
-   *     useEffect(() => {
-        const fetchFilms = async () => {
-            try {
-                const response = await fetch("https://swapi.dev/api/films/");
-                if (!response.ok) throw new Error("Failed to fetch films");
-                const data = await response.json();
-                setFilms(data.results);
-            } catch (err) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchFilms();
-    }, []);
-   */
 
 
 
@@ -183,44 +123,71 @@ function Gallery({
             image={BlueVortexImage}
             name="Blue Vortex"
             description="Low in stock!"
-            isBought={isBlueVortexBought}
-            onBuyClick={() => setIsBlueVortexBought(true)}
+            isBought={purchasedItems.find(item => item.id === 1)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 1 ? { ...item, isBought: true } : item))}
           />
           <GalleryItem
             image={MarbleCountertopImage}
             name="Marble Facade"
             description="Exotic!"
-            isBought={isMarbleFacadeBought}
-            onBuyClick={() => setIsMarbleFacadeBought(true)}
+            isBought={purchasedItems.find(item => item.id === 2)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 2 ? { ...item, isBought: true } : item))}
           />
           <GalleryItem
             image={GondorGreyImage}
             name="Gondor Grey"
             description="Lord of the Rings!"
-            isBought={isGondorGreyBought}
-            onBuyClick={() => setIsGondorGreyBought(true)}
+            isBought={purchasedItems.find(item => item.id === 3)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 3 ? { ...item, isBought: true } : item))}
           />
           <GalleryItem
             image={GreenImage}
             name="Green Cover"
             description="Classic forest green!"
-            isBought={isGreenCoverBought}
-            onBuyClick={() => setIsGreenCoverBought(true)}
+            isBought={purchasedItems.find(item => item.id === 4)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 4 ? { ...item, isBought: true } : item))}
           />
           <GalleryItem
             image={GryffindorRedImage}
             name="Gryffindor Red"
             description="Gryffindor Red is a favorite!"
-            isBought={isGryffindorRedBought}
-            onBuyClick={() => setIsGryffindorRedBought(true)}
+            isBought={purchasedItems.find(item => item.id === 5)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 5 ? { ...item, isBought: true } : item))}
           />
-  
           <GalleryItem
-            image={cover}
-            name={isLoading ? "Loading..." : `${mockTitle}`}
-            description={isLoading ? "Loading..." : `Let this book by ${mockAuthor} inspire your book cover!`}
-            isBought={isGryffindorRedBought}
-            onBuyClick={() => setIsGryffindorRedBought(true)}
+            image={`${coversUrl}${coverIds[0]}-L.jpg`}
+            name={(isLoading || titles[0] === undefined) ? "Loading..." : `Inspiration: ${titles[0]}`}
+            description={(isLoading || authors[0] === undefined) ? "Loading..." : `Let this book by ${authors[0]} inspire your book cover!`}
+            isBought={purchasedItems.find(item => item.id === 6)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 6 ? { ...item, isBought: true } : item))}
+          />
+          <GalleryItem
+            image={`${coversUrl}${coverIds[1]}-L.jpg`}
+            name={(isLoading || titles[1] === undefined) ? "Loading..." : `Inspiration: ${titles[1]}`}
+            description={(isLoading || authors[1] === undefined) ? "Loading..." : `Let this book by ${authors[1]} inspire your book cover!`}
+            isBought={purchasedItems.find(item => item.id === 7)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 7 ? { ...item, isBought: true } : item))}
+          />
+          <GalleryItem
+            image={`${coversUrl}${coverIds[2]}-L.jpg`}
+            name={(isLoading || titles[2] === undefined) ? "Loading..." : `Inspiration: ${titles[2]}`}
+            description={(isLoading || authors[2] === undefined) ? "Loading..." : `Let this book by ${authors[2]} inspire your book cover!`}
+            isBought={purchasedItems.find(item => item.id === 8)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 8 ? { ...item, isBought: true } : item))}
+          />
+          <GalleryItem
+            image={`${coversUrl}${coverIds[3]}-L.jpg`}
+            name={(isLoading || titles[3] === undefined) ? "Loading..." : `Inspiration: ${titles[3]}`}
+            description={(isLoading || authors[3] === undefined) ? "Loading..." : `Let this book by ${authors[3]} inspire your book cover!`}
+            isBought={purchasedItems.find(item => item.id === 9)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 9 ? { ...item, isBought: true } : item))}
+          />
+          <GalleryItem
+            image={`${coversUrl}${coverIds[4]}-L.jpg`}
+            name={(isLoading || titles[4] === undefined) ? "Loading..." : `Inspiration: ${titles[4]}`}
+            description={(isLoading || authors[4] === undefined) ? "Loading..." : `Let this book by ${authors[4]} inspire your book cover!`}
+            isBought={purchasedItems.find(item => item.id === 10)?.isBought}
+            onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 10 ? { ...item, isBought: true } : item))}
           />
         </Row>
       </Container>
