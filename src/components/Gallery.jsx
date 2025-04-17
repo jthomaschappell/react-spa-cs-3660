@@ -21,6 +21,8 @@ function Gallery({
   const coversUrl = "https://covers.openlibrary.org/b/id/";
   const booksUrl = "https://openlibrary.org/search.json";
   const [cover, setCover] = useState(null);
+  const [mockTitle, setMockTitle] = useState(null);
+  const [mockAuthor, setMockAuthor] = useState(null); 
 
   const formatBookTitle = bookTitle => bookTitle.replaceAll(" ", "+").toLowerCase();
 
@@ -55,19 +57,35 @@ function Gallery({
     const fetchBookResponse = async () => {
       console.log(`Fetching book response for ${formattedBookTitles[1]}`);
       try {
+        // get title data. 
         const response = await fetch(`${booksUrl}?title=${formattedBookTitles[1]}`);
         const data = await response.json();
-        console.log(JSON.stringify(data));
+        // console.log(JSON.stringify(data));
+
+        // title
+        const title = data.docs[0].title;
+        console.log(`Title: ${title}`);
+        setMockTitle(title);
+
+        // author
+        const author = data.docs[0].author_name;
+        console.log(`Author: ${author}`);
+        setMockAuthor(author); 
+
+        // cover id
         const coverId = data.docs[0].cover_i;
         console.log(`Cover ID: ${coverId}`);
-        // TODO: Test the cover ID. 
+
+        // fetch the cover
         try {
+          // TODO: 
+          // TODO: 12818862 is the ID for Wuthering Heights. 
           const coverResponse = await fetch(`${coversUrl}${coverId}-L.jpg`);
           if (!coverResponse.ok) {
             throw new Error(`Failed to fetch cover for ${formattedBookTitles[1]}`);
           }
-          const coverBlob = await coverResponse.blob();
-          setCover(coverBlob);
+          setCover(coverResponse); 
+      
         } catch (err) {
           console.log(`Book covers error: ${err}`);
         }
@@ -87,66 +105,6 @@ function Gallery({
   }, []); // Empty dependency array means this runs once on mount
 
 
-  // useEffect(() => {
-  //   const fetchBookCovers = async () => {
-  //     try {
-  //       setIsLoading(true);
-  //       let formattedBookTitles = [];
-  //       for (const title of bookTitles) {
-  //         formattedBookTitles.push(formatBookTitle(title));
-  //       }
-
-  //       const promises = formattedBookTitles.map(title => fetch(`${booksUrl}?title=${title}`).then(response => {
-  //         if (!response.ok) throw new Error(`Failed to fetch ${title} from API.`);
-  //         return response.json();
-  //       }));
-
-  //       // TODO: This is not quite the right type of data. 
-
-  //       const results = await Promise.all(promises);
-  //       const stringified = JSON.stringify(results, null, 2); 
-  //       console.log(`Stringified: ${stringified[0]}`);
-  //       setIsLoading(false);
-  //     } catch (err) {
-  //       setError(err.message);
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   fetchBookCovers();
-  // }, []);
-
-  // TODO: Now test the useEffect by loading the page and seeing 
-  // TODO: what shows up on the console.log
-
-
-
-  // if parsed JSON is data, 
-  // then data.docs[0].author_name
-  // and data.docs[0].title
-  // and data.docs[0].cover_i --> we can do another call to get this. 
-
-  // https://openlibrary.org/search.json?title=little+women
-
-  /**
-   * New implementation: 
-   * We call a fetch request to the get books URL. 
-   * We pull out the "title" for use in "Lord of the Rings" Inspired Cover
-   * We pull out the cover_i and do a call to the CDN for it. 
-   * 
-   * 
-   * 
-   * 
-   * const data = JSON.parse(jsonString);
-const firstCoverId = data.docs[0].cover_i;
-   */
-
-
-
-
-
-
-
   // const bookIds = [
   //   "14625765",
   //   "12818862",
@@ -155,10 +113,6 @@ const firstCoverId = data.docs[0].cover_i;
   //   "8775559"
   // ];
   // const coversUrl = "https://covers.openlibrary.org/b/id/"
-
-  // // TODO: New implementation. 
-  // // TODO: Pull "Name of book" cover. 
-  // // TODO: Use the id from the thing to call it. 
 
 
   // /**
@@ -257,6 +211,14 @@ const firstCoverId = data.docs[0].cover_i;
             image={GryffindorRedImage}
             name="Gryffindor Red"
             description="Gryffindor Red is a favorite!"
+            isBought={isGryffindorRedBought}
+            onBuyClick={() => setIsGryffindorRedBought(true)}
+          />
+  
+          <GalleryItem
+            image={cover}
+            name={isLoading ? "Loading..." : `${mockTitle}`}
+            description={isLoading ? "Loading..." : `Let this book by ${mockAuthor} inspire your book cover!`}
             isBought={isGryffindorRedBought}
             onBuyClick={() => setIsGryffindorRedBought(true)}
           />
