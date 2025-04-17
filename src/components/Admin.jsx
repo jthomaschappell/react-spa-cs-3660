@@ -2,9 +2,17 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { Button, Card, Container } from 'react-bootstrap';
 import Logo from '../assets/logo.svg';
+import { useNavigate } from 'react-router-dom';
 
 function Admin() {
     const { isLoggedIn, token, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const delayedLogout = () => {
+        console.log("Delayed logout called");
+        logout();
+    }
+
     return (
         <Container className="mt-4 d-flex justify-content-center">
             <Card style={{ width: '400px' }}>
@@ -14,7 +22,7 @@ function Admin() {
 
                         <h1 className="mb-4 mt-4">Admin</h1>
                         <p>Welcome, {token?.username}</p>
-                        <Button onClick={logout}>Logout</Button>
+                        <Button onClick={delayedLogout}>Logout</Button>
                     </div>
                 </Card.Body>
             </Card>

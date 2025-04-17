@@ -12,7 +12,7 @@ function CarouselSection() {
         />
         <Carousel.Caption>
           <h3>New D&D Covers!</h3>
-          <p>Get a custom D&D cover for your Dungeon Master, or for anyone you know who plays D&D!.</p>
+          <p>Get a custom D&D cover for your Dungeon Master, or for anyone you know who plays D&D!</p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item>
