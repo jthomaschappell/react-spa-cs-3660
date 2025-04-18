@@ -1,4 +1,4 @@
-import { Container, Row } from 'react-bootstrap';
+import { Container, Row, Button, Col } from 'react-bootstrap';
 import BlueVortexImage from '../assets/blue_vortex.jpeg';
 import MarbleCountertopImage from '../assets/marble_countertop.jpeg';
 import GondorGreyImage from '../assets/gondor_grey.jpeg';
@@ -110,11 +110,19 @@ function Gallery({
 
   return (
     <>
-    {(error != null) && <h1 className='text-danger'>{error}</h1>}
+      {(error != null) && <h1 className='text-danger'>{error}</h1>}
 
       {isLoading ? <Spinner /> :
         <Container>
-          <h1 className="display-4 fw-bold mb-4">GALLERY</h1>
+          <Row className="mb-4">
+            <Col xs={6} className="text-center">
+              <h1 className="display-4 fw-bold">GALLERY</h1>
+            </Col>
+            <Col xs={6} className="d-flex justify-content-end">
+              <Button size="sm" onClick={() => setPurchasedItems(prevItems => prevItems.map(item => ({ ...item, isBought: false })))}>Reset Purchased Items</Button>
+            </Col>
+          </Row>
+
           <Row xs={1} sm={2} md={3} lg={4} className="g-4">
             <GalleryItem
               image={`${coversUrl}${coverIds[0]}-L.jpg`}
