@@ -21,7 +21,7 @@ function Admin() {
                         <img className="rounded-4" src={Logo} alt="Binder Logo" style={{ width: "250px", height: 'auto', border: "1px solid #CCD5AE" }} />
 
                         <h1 className="mb-4 mt-4">Admin</h1>
-                        <p>Welcome, {token?.username}</p>
+                        <p>Welcome, <strong>{token?.username}!</strong> We're glad you're here. More admin features are coming soon!</p>
                         <Button onClick={delayedLogout}>Logout</Button>
                     </div>
                 </Card.Body>

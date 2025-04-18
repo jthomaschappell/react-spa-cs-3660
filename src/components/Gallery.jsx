@@ -24,8 +24,7 @@ function Gallery({
   const [coverIds, setCoverIds] = useState([]);
   const [titles, setTitles] = useState([]);
   const [authors, setAuthors] = useState([]);
-  const [error, setError] = useState(null);
-  const [isSpinning, setIsSpinning] = useState(true);
+  const [error, setError] = useState();
 
   const booksUrl = "https://openlibrary.org/search.json";
   const coversUrl = "https://covers.openlibrary.org/b/id/";
@@ -45,7 +44,7 @@ function Gallery({
 
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 3000);
 
 
     const formattedBookTitles = [];
@@ -86,7 +85,6 @@ function Gallery({
           setCoverIds(myCoverIds);
           setTitles(myTitles);
           setAuthors(myAuthors);
-          setError(null);
           console.log("Successfully parsed book responses!");
 
         } catch (error) {
@@ -112,7 +110,7 @@ function Gallery({
 
   return (
     <>
-      {/* <h1>Gallery</h1> */}
+    {(error != null) && <h1 className='text-danger'>{error}</h1>}
 
       {isLoading ? <Spinner /> :
         <Container>

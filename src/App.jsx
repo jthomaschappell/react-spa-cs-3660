@@ -103,18 +103,18 @@ function App() {
         <div className='App'>
           <Navbar />
           <Routes>
-            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/gallery" element={
-              <Gallery
-                purchasedItems={purchasedItems}
-                setPurchasedItems={setPurchasedItems}
-              />
-            } />
             <Route element={<AuthRoute />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/gallery" element={
+                <Gallery
+                  purchasedItems={purchasedItems}
+                  setPurchasedItems={setPurchasedItems}
+                />
+              } />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/*" element={<NotFound />} />
             </Route>
-            <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
       </Router>
