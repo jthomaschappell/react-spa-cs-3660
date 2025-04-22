@@ -39,7 +39,6 @@ function Gallery({
   // loads on mount
   useEffect(() => {
     console.log('Component mounted');
-
     setIsLoading(true);
 
     const loadingTimer = setTimeout(() => {
@@ -61,10 +60,12 @@ function Gallery({
         // call all the books at once
         const results = await Promise.all(
           formattedBookTitles.map(
-            title => fetch(`${booksUrl}?title=${title}`)
+            title => fetch(`http://localhost:8000/api/book/${title}`)
               .then(res => res.json())
           )
-        );
+        ); 
+
+        console.log(`Results: ${results}`);
 
         // parse the results
         try {
@@ -73,11 +74,11 @@ function Gallery({
           const myAuthors = [];
 
           for (const result of results) {
-            let coverId = result.docs[0].cover_i;
+            let coverId = result.cover_id;
             myCoverIds.push(coverId);
-            let title = result.docs[0].title;
+            let title = result.title;
             myTitles.push(title);
-            let author = result.docs[0].author_name;
+            let author = result.author;
             myAuthors.push(author);
           }
 

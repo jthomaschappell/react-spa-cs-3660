@@ -104,6 +104,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
+
+            {/* we do an auth route on everything except for the login. */}
             <Route element={<AuthRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/gallery" element={
@@ -115,6 +117,7 @@ function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="/*" element={<NotFound />} />
             </Route>
+            
           </Routes>
         </div>
       </Router>

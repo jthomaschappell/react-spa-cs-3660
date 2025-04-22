@@ -5,6 +5,8 @@ import GrandmaReadingImage from '../assets/grandma_reading.jpg';
 import CarouselSection from './CarouselSection';
 
 function Home() {
+  const navigate = useNavigate();
+  
   return (
     <>
       <img className="rounded-5 mb-4" src={Logo} alt="Binder Logo" style={{ width: "500px", height: 'auto', border: "1px solid #CCD5AE" }} />
