@@ -79,12 +79,16 @@ function Gallery({
 
     const fetchBookResponses = async () => {
       console.log("Fetching book responses!");
+      console.log("It uses the ec2 endpoint");
 
       try {
         // call all the books at once
         const results = await Promise.all(
           formattedBookTitles.map(
-            title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
+            // Other endpoint:
+            // localhost:8000/api/book/${title}
+            // title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
+            title => fetch(`http://localhost:8000/api/book/${title}`)
               .then(res => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! status: ${res.status}`);

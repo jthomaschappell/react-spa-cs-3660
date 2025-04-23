@@ -26,22 +26,22 @@ function App() {
   const [purchasedItems, setPurchasedItems] = useState([
     {
       id: 1,
-      name: "Blue Vortex",
-      description: "Low in stock!",
+      name: "Blue Vortex", 
+      description: "Almost out of stock!",
       isBought: isBlueVortexBought,
       setIsBought: setIsBlueVortexBought
     },
     {
       id: 2,
-      name: "Marble Facade",
-      description: "Exotic!",
+      name: "Marble Intimidating Facade",
+      description: "Rare and exotic!",
       isBought: isMarbleFacadeBought,
       setIsBought: setIsMarbleFacadeBought
     },
     {
       id: 3,
       name: "Gondor Grey",
-      description: "Gondor Grey is a favorite!",
+      description: "Gondor Grey is a classic favorite!",
       isBought: isGondorGreyBought,
       setIsBought: setIsGondorGreyBought
     },
@@ -55,45 +55,10 @@ function App() {
     {
       id: 5,
       name: "Gryffindor Red",
-      description: "Gryffindor Red is a favorite!",
+      description: "Gryffindor Red is a fan favorite!",
       isBought: isGryffindorRedBought,
       setIsBought: setIsGryffindorRedBought
     },
-    {
-      id: 6,
-      name: "Lord of the Rings",
-      description: "Lord of the Rings is a favorite!",
-      isBought: isLordOfTheRingsBought,
-      setIsBought: setIsLordOfTheRingsBought
-    },
-    {
-      id: 7,
-      name: "Wuthering Heights",
-      description: "Wuthering Heights is a favorite!",
-      isBought: isWutheringHeightsBought,
-      setIsBought: setIsWutheringHeightsBought
-    },
-    {
-      id: 8,
-      name: "Pride and Prejudice",
-      description: "Pride and Prejudice is a favorite!",
-      isBought: isPrideAndPrejudiceBought,
-      setIsBought: setIsPrideAndPrejudiceBought
-    },
-    {
-      id: 9,
-      name: "Dracula",
-      description: "Dracula is a favorite!",
-      isBought: isDraculaBought,
-      setIsBought: setIsDraculaBought
-    },
-    {
-      id: 10,
-      name: "Little Women",
-      description: "Little Women is a favorite!",
-      isBought: isLittleWomenBought,
-      setIsBought: setIsLittleWomenBought
-    }
   ]);
 
 
