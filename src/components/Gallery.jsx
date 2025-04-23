@@ -87,8 +87,11 @@ function Gallery({
           formattedBookTitles.map(
             // Other endpoint:
             // localhost:8000/api/book/${title}
-            // title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
-            title => fetch(`http://localhost:8000/api/book/${title}`)
+            title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
+            
+            // https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/{myProxy+}
+            // title => fetch(`https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/${title}`)
+            // title => fetch(`http://localhost:8000/api/book/${title}`)
               .then(res => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! status: ${res.status}`);

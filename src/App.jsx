@@ -40,7 +40,7 @@ function App() {
     {
       id: 5,
       name: "Gryffindor Red",
-      description: "it's a default favorite",
+      description: "it's a default fa vorite",
       isBought: false
     }
   ];
@@ -50,7 +50,8 @@ function App() {
   useEffect(() => {
     const fetchPurchasedItems = async () => {
       try {
-        const response = await fetch('http://localhost:8000/api/purchased-items');
+        // const response = await fetch('http://localhost:8000/api/purchased-items');
+        const response = await fetch('https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/purchased-items');
         const data = await response.json();
         setPurchasedItems(data.purchasedItems);
       } catch (error) {
