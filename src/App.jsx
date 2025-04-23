@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Navbar from './components/Navbar';
 import Home from './components/Home';
@@ -12,55 +12,55 @@ import AuthRoute from './AuthRoute';
 import Admin from './components/Admin';
 
 function App() {
-  const [isBlueVortexBought, setIsBlueVortexBought] = useState(false);
-  const [isMarbleFacadeBought, setIsMarbleFacadeBought] = useState(false);
-  const [isGondorGreyBought, setIsGondorGreyBought] = useState(false);
-  const [isGreenCoverBought, setIsGreenCoverBought] = useState(false);
-  const [isGryffindorRedBought, setIsGryffindorRedBought] = useState(false);
-  const [isLordOfTheRingsBought, setIsLordOfTheRingsBought] = useState(false);
-  const [isWutheringHeightsBought, setIsWutheringHeightsBought] = useState(false);
-  const [isPrideAndPrejudiceBought, setIsPrideAndPrejudiceBought] = useState(false);
-  const [isDraculaBought, setIsDraculaBought] = useState(false);
-  const [isLittleWomenBought, setIsLittleWomenBought] = useState(false);
-
-  const [purchasedItems, setPurchasedItems] = useState([
+  const defaultPurchasedItems = [
     {
       id: 1,
-      name: "Blue Vortex", 
-      description: "Almost out of stock!",
-      isBought: isBlueVortexBought,
-      setIsBought: setIsBlueVortexBought
+      name: "Blue Gray Vortex",
+      description: "it's a default favorite",
+      isBought: false
     },
     {
       id: 2,
-      name: "Marble Intimidating Facade",
-      description: "Rare and exotic!",
-      isBought: isMarbleFacadeBought,
-      setIsBought: setIsMarbleFacadeBought
+      name: "Marble Exotic Facade", 
+      description: "it's a default favorite",
+      isBought: false
     },
     {
       id: 3,
       name: "Gondor Grey",
-      description: "Gondor Grey is a classic favorite!",
-      isBought: isGondorGreyBought,
-      setIsBought: setIsGondorGreyBought
+      description: "it's a default favorite",
+      isBought: false
     },
     {
       id: 4,
       name: "Green Cover",
-      description: "Green Cover is a favorite!",
-      isBought: isGreenCoverBought,
-      setIsBought: setIsGreenCoverBought
+      description: "it's a default favorite",
+      isBought: false
     },
     {
       id: 5,
       name: "Gryffindor Red",
-      description: "Gryffindor Red is a fan favorite!",
-      isBought: isGryffindorRedBought,
-      setIsBought: setIsGryffindorRedBought
-    },
-  ]);
+      description: "it's a default favorite",
+      isBought: false
+    }
+  ];
 
+  const [purchasedItems, setPurchasedItems] = useState(defaultPurchasedItems);
+
+  useEffect(() => {
+    const fetchPurchasedItems = async () => {
+      try {
+        const response = await fetch('http://localhost:8000/api/purchased-items');
+        const data = await response.json();
+        setPurchasedItems(data.purchasedItems);
+      } catch (error) {
+        console.error('Error fetching purchased items:', error);
+        setPurchasedItems(defaultPurchasedItems);
+      }
+    };
+
+    fetchPurchasedItems();
+  }, []);
 
   return (
     <>
@@ -90,4 +90,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
