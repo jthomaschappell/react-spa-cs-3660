@@ -1,4 +1,4 @@
-import { Container, Row, Button, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import BlueVortexImage from '../assets/blue_vortex.jpeg';
 import MarbleCountertopImage from '../assets/marble_countertop.jpeg';
 import GondorGreyImage from '../assets/gondor_grey.jpeg';
@@ -45,7 +45,8 @@ const fallbackBookData = [
 const formatBookTitle = bookTitle => bookTitle.replaceAll(" ", "+").toLowerCase();
 
 function Gallery({
-  purchasedItems, setPurchasedItems
+  purchasedItems,
+  setPurchasedItems
 }) {
   const [isLoading, setIsLoading] = useState(true);
   const [coverIds, setCoverIds] = useState([]);
@@ -84,7 +85,7 @@ function Gallery({
         // call all the books at once
         const results = await Promise.all(
           formattedBookTitles.map(
-            title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
+            title => fetch(`http://localhost:8000/api/book/${title}`)
               .then(res => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! status: ${res.status}`);
@@ -152,11 +153,8 @@ function Gallery({
       {isLoading ? <Spinner /> :
         <Container>
           <Row className="mb-4">
-            <Col xs={6} className="text-center">
+            <Col xs={12} className="text-center">
               <h1 className="display-4 fw-bold">GALLERY</h1>
-            </Col>
-            <Col xs={6} className="d-flex justify-content-end">
-              <Button size="sm" onClick={() => setPurchasedItems(prevItems => prevItems.map(item => ({ ...item, isBought: false })))}>Reset Purchased Items</Button>
             </Col>
           </Row>
 
@@ -168,44 +166,23 @@ function Gallery({
                 name={titles[index] ? `Inspiration: ${titles[index]}` : "Loading..."}
                 description={authors[index] ? `Let this book by ${authors[index]} inspire your book cover!` : "Loading..."}
                 isBought={purchasedItems.find(item => item.id === index + 6)?.isBought}
-                onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === index + 6 ? { ...item, isBought: true } : item))}
               />
             ))}
-            <GalleryItem
-              image={BlueVortexImage}
-              name="Blue Vortex"
-              description={purchasedItems.find(item => item.id === 1)?.description}
-              isBought={purchasedItems.find(item => item.id === 1)?.isBought}
-              onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 1 ? { ...item, isBought: true } : item))}
-            />
-            <GalleryItem
-              image={MarbleCountertopImage}
-              name={purchasedItems.find(item => item.id === 2)?.name}
-              description={purchasedItems.find(item => item.id === 2)?.description}
-              isBought={purchasedItems.find(item => item.id === 2)?.isBought}
-              onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 2 ? { ...item, isBought: true } : item))}
-            />
-            <GalleryItem
-              image={GondorGreyImage}
-              name={purchasedItems.find(item => item.id === 3)?.name}
-              description={purchasedItems.find(item => item.id === 3)?.description}
-              isBought={purchasedItems.find(item => item.id === 3)?.isBought}
-              onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 3 ? { ...item, isBought: true } : item))}
-            />
-            <GalleryItem
-              image={GreenImage}
-              name={purchasedItems.find(item => item.id === 4)?.name}
-              description={purchasedItems.find(item => item.id === 4)?.description}
-              isBought={purchasedItems.find(item => item.id === 4)?.isBought}
-              onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 4 ? { ...item, isBought: true } : item))}
-            />
-            <GalleryItem
-              image={GryffindorRedImage}
-              name={purchasedItems.find(item => item.id === 5)?.name}
-              description={purchasedItems.find(item => item.id === 5)?.description}
-              isBought={purchasedItems.find(item => item.id === 5)?.isBought}
-              onBuyClick={() => setPurchasedItems(prevItems => prevItems.map(item => item.id === 5 ? { ...item, isBought: true } : item))}
-            />
+            {[
+              { id: 1, image: BlueVortexImage },
+              { id: 2, image: MarbleCountertopImage },
+              { id: 3, image: GondorGreyImage }, 
+              { id: 4, image: GreenImage },
+              { id: 5, image: GryffindorRedImage }
+            ].map((item) => (
+              <GalleryItem
+                key={item.id}
+                image={item.image}
+                name={purchasedItems.find(pItem => pItem.id === item.id)?.name}
+                description={purchasedItems.find(pItem => pItem.id === item.id)?.description}
+                isBought={purchasedItems.find(pItem => pItem.id === item.id)?.isBought}
+              />
+            ))}
           </Row>
         </Container>
       }
