@@ -12,30 +12,56 @@ import AuthRoute from './AuthRoute';
 import Admin from './components/Admin';
 
 function App() {
-  const [purchasedItems, setPurchasedItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const defaultPurchasedItems = [
+    {
+      id: 1,
+      name: "Blue Gray Vortex",
+      description: "it's a default favorite",
+      isBought: false
+    },
+    {
+      id: 2,
+      name: "Marble Exotic Facade", 
+      description: "it's a default favorite",
+      isBought: false
+    },
+    {
+      id: 3,
+      name: "Gondor Grey",
+      description: "it's a default favorite",
+      isBought: false
+    },
+    {
+      id: 4,
+      name: "Green Cover",
+      description: "it's a default favorite",
+      isBought: false
+    },
+    {
+      id: 5,
+      name: "Gryffindor Red",
+      description: "it's a default fa vorite",
+      isBought: false
+    }
+  ];
+
+  const [purchasedItems, setPurchasedItems] = useState(defaultPurchasedItems);
 
   useEffect(() => {
     const fetchPurchasedItems = async () => {
       try {
-        const data = await fetch('http://localhost:8000/api/purchased-items')
-          .then(res => res.json())
-          .then(data => data.purchasedItems);
-        setPurchasedItems(data);
-      } catch (err) {
-        setError('Failed to fetch purchased items');
-        console.error('Error:', err);
-      } finally {
-        setIsLoading(false);
+        // const response = await fetch('http://localhost:8000/api/purchased-items');
+        const response = await fetch('https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/purchased-items');
+        const data = await response.json();
+        setPurchasedItems(data.purchasedItems);
+      } catch (error) {
+        console.error('Error fetching purchased items:', error);
+        setPurchasedItems(defaultPurchasedItems);
       }
     };
 
     fetchPurchasedItems();
   }, []);
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
 
   return (
     <>
@@ -44,6 +70,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/login" element={<Login />} />
+
+            {/* we do an auth route on everything except for the login. */}
             <Route element={<AuthRoute />}>
               <Route path="/" element={<Home />} />
               <Route path="/gallery" element={
@@ -55,6 +83,7 @@ function App() {
               <Route path="/admin" element={<Admin />} />
               <Route path="/*" element={<NotFound />} />
             </Route>
+            
           </Routes>
         </div>
       </Router>
@@ -62,4 +91,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
