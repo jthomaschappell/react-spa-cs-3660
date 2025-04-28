@@ -8,6 +8,9 @@ import GalleryItem from '../widgets/GalleryItem';
 import { useState, useEffect } from 'react';
 import { ClipLoader } from "react-spinners";
 
+const vite_backend = import.meta.env.VITE_BACKEND_URL;
+console.log("The vite backend is: ", vite_backend);
+
 function Spinner() {
   return <ClipLoader color="#36d7b7" />;
 }
@@ -87,11 +90,12 @@ function Gallery({
           formattedBookTitles.map(
             // Other endpoint:
             // localhost:8000/api/book/${title}
-            title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
-            
-            // https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/{myProxy+}
-            // title => fetch(`https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/${title}`)
-            // title => fetch(`http://localhost:8000/api/book/${title}`)
+            // title => fetch(`http://ec2-35-94-237-243.us-west-2.compute.amazonaws.com:8000/api/book/${title}`)
+            title => fetch(`${vite_backend}/api/book/${title}`)
+
+              // https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/{myProxy+}
+              // title => fetch(`https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/book/${title}`)
+              // title => fetch(`http://localhost:8000/api/book/${title}`)
               .then(res => {
                 if (!res.ok) {
                   throw new Error(`HTTP error! status: ${res.status}`);
@@ -128,7 +132,7 @@ function Gallery({
       } catch (error) {
         console.error("Error fetching book responses:", error);
         setError("Unable to connect to the book service. Showing fallback data.");
-        
+
         // Use fallback data
         const fallbackData = fallbackBookData;
         setCoverIds(fallbackData.map(book => book.cover_id));
