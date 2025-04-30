@@ -82,7 +82,7 @@ function Gallery({
 
     const fetchBookResponses = async () => {
       console.log("Fetching book responses!");
-      console.log("It uses the ec2 endpoint");
+      // console.log("It uses the ec2 endpoint");
 
       try {
         // call all the books at once
