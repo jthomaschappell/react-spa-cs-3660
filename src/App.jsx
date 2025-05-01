@@ -12,6 +12,9 @@ import AuthRoute from './AuthRoute';
 import Admin from './components/Admin';
 
 function App() {
+  const vite_backend = import.meta.env.VITE_BACKEND_URL;
+  console.log("The vite backend is: ", vite_backend);
+
   const defaultPurchasedItems = [
     {
       id: 1,
@@ -40,7 +43,7 @@ function App() {
     {
       id: 5,
       name: "Gryffindor Red",
-      description: "it's a default fa vorite",
+      description: "it's a default favorite",
       isBought: false
     }
   ];
@@ -50,8 +53,11 @@ function App() {
   useEffect(() => {
     const fetchPurchasedItems = async () => {
       try {
+        
         // const response = await fetch('http://localhost:8000/api/purchased-items');
-        const response = await fetch('https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/purchased-items');
+        // const response = await fetch('https://lwm3z33w07.execute-api.us-west-2.amazonaws.com/production/api/purchased-items');
+        // const response = await fetch('https://ec2-54-177-129-86.us-west-1.compute.amazonaws.com:8000/api/purchased-items/');
+        const response = await fetch(`${vite_backend}/api/purchased-items/`);
         const data = await response.json();
         setPurchasedItems(data.purchasedItems);
       } catch (error) {
